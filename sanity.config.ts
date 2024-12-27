@@ -3,7 +3,7 @@ import { structureTool } from "sanity/structure";
 import { presentationTool } from "sanity/presentation";
 
 import { schema } from "./src/sanity/schema-types";
-import { resolve } from "./src/sanity/lib/resolver";
+// import { resolve } from "./src/sanity/lib/resolver";
 
 export default defineConfig({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [
     structureTool(),
     presentationTool({
-      resolve,
+      // resolve,
       previewUrl: location.origin,
     }),
   ],
