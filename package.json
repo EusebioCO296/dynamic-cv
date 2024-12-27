@@ -1,5 +1,5 @@
 {
-  "name": "fumbling-filament",
+  "name": "dynamic-cv",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,6 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@astrojs/netlify": "^6.0.1",
     "@astrojs/react": "^4.1.2",
     "@astrojs/tailwind": "^5.1.4",
     "@portabletext/types": "^2.0.13",
