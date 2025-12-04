@@ -44,8 +44,10 @@ const { data } = await loadQuery<education[]>({
 
           return (
             <article class="my-3">
-              <p class="text-base lg:text-lg font-medium">{items.degree}</p>
-              <p class="text-base lg:text-lg italic">
+              <p class="text-base lg:text-lg font-semibold lg:font-medium">
+                {items.degree}
+              </p>
+              <p class="text-base lg:text-lg italic font-semibold lg:font-medium">
                 {items.institutionOrSchool} | {formattedStart} - {formattedEnd}
               </p>
               <div

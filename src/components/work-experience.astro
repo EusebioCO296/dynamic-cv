@@ -9,6 +9,7 @@ interface WorkExperience {
   startDate: string;
   endDate: string;
   current: boolean;
+  hideDescription?: boolean;
   companyName: string;
   modality: string;
   jobDescription: any[];
@@ -22,6 +23,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
     startDate,
     endDate,
     current,
+    hideDescription,
     companyName,
     modality,
     jobDescription,
@@ -45,19 +47,21 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
 
         return (
           <article class="my-3 font-normal text-base">
-            <p class="text-base lg:text-lg font-medium">
+            <p class="text-base lg:text-lg font-semibold lg:font-medium">
               {experience.jobTitle}
             </p>
-            <p class="text-base lg:text-lg italic">
+            <p class="text-base font-medium lg:font-normal lg:text-lg italic">
               {experience.companyName}, {experience.modality} | {formattedStart}{" "}
               - {formattedEnd}
             </p>
-            <div
-              class="font-normal text-gray-800 text-justify leading-relaxed"
-              id="block-content"
-            >
-              <PortableText portableText={experience.jobDescription} />
-            </div>
+            {!experience.hideDescription && (
+              <div
+                class="font-normal text-gray-800 text-justify leading-relaxed"
+                id="block-content"
+              >
+                <PortableText portableText={experience.jobDescription} />
+              </div>
+            )}
           </article>
         );
       })

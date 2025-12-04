@@ -39,6 +39,12 @@ export const workExperience = defineType({
       type: "boolean",
     }),
     defineField({
+      name: "hideDescription",
+      title: "Hide Description",
+      description: "If enabled, only job title, company and dates will be shown (no job description)",
+      type: "boolean",
+    }),
+    defineField({
       name: "companyName",
       title: "Company Name",
       type: "string",

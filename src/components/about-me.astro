@@ -61,7 +61,7 @@ const aboutMe = data[0];
   <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" /> -->
 
   <!-- Contact Info -->
-  <article class="mt-5 font-normal text-sm lg:text-base">
+  <article class="mt-5 font-normal text-base">
     <p class="text-xl lg:text-2xl font-medium">Contact Info</p>
     <div class="flex items-center my-2">
       <Icon name="location" class="w-4 h-4 lg:w-6 lg:h-6" />
@@ -83,7 +83,7 @@ const aboutMe = data[0];
   <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" />
 
   <!-- Social Links -->
-  <article class="font-normal text-sm lg:text-base">
+  <article class="font-normal text-base">
     <p class="text-xl lg:text-2xl font-medium">Social Links</p>
     {
       aboutMe.links?.map((items: { platformName: string; link: string }) => (
@@ -99,7 +99,7 @@ const aboutMe = data[0];
   <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" />
 
   <!-- Skills -->
-  <article class="font-normal text-sm lg:text-base leading-relaxed">
+  <article class="font-normal text-base leading-relaxed">
     <p class="text-xl lg:text-2xl font-medium">Skills</p>
     <PortableText portableText={aboutMe.skills} />
   </article>
