@@ -16,6 +16,11 @@ export const education = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "degreeEs",
+      title: "Degree or field of study (ES)",
+      type: "string",
+    }),
+    defineField({
       name: "startDate",
       title: "Start Date",
       type: "date",
@@ -47,6 +52,22 @@ export const education = defineType({
     defineField({
       name: "description",
       title: "Description",
+      type: "array",
+      of: [
+        {
+          title: "Block",
+          type: "block",
+          styles: [{ title: "Normal", value: "normal" }],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "descriptionEs",
+      title: "Description (ES)",
       type: "array",
       of: [
         {

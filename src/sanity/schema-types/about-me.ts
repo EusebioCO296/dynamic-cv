@@ -28,6 +28,11 @@ export const aboutMe = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "jobTitleEs",
+      title: "Job title (ES)",
+      type: "string",
+    }),
+    defineField({
       name: "defaultContactInfo",
       title: "Default Contact Info",
       type: "object",
@@ -122,14 +127,29 @@ export const aboutMe = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "skillsEs",
+      title: "Skills (ES)",
+      type: "blockContent",
+    }),
+    defineField({
       name: "languages",
       type: "blockContent",
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "languagesEs",
+      title: "Languages (ES)",
+      type: "blockContent",
+    }),
+    defineField({
       name: "bio",
       type: "text",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "bioEs",
+      title: "Bio (ES)",
+      type: "text",
     }),
   ],
 });

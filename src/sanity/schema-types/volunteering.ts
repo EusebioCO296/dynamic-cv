@@ -16,6 +16,11 @@ export const volunteering = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "roleEs",
+      title: "Role (ES)",
+      type: "string",
+    }),
+    defineField({
       name: "startDate",
       title: "Start Date",
       type: "date",
@@ -47,6 +52,22 @@ export const volunteering = defineType({
     defineField({
       name: "description",
       title: "Description",
+      type: "array",
+      of: [
+        {
+          title: "Block",
+          type: "block",
+          styles: [{ title: "Normal", value: "normal" }],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "descriptionEs",
+      title: "Description (ES)",
       type: "array",
       of: [
         {

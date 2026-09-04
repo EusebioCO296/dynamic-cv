@@ -2,10 +2,18 @@
 import { loadQuery } from "../sanity/lib/load-query";
 import PortableText from "../components/portable-text.astro";
 import { formatDateRangeHelper } from "../utils/helpers";
+import { t, getModality, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props as Props;
 
 interface WorkExperience {
   title: string;
   jobTitle: string;
+  jobTitleEs?: string;
   startDate: string;
   endDate: string;
   current: boolean;
@@ -13,6 +21,7 @@ interface WorkExperience {
   companyName: string;
   modality: string;
   jobDescription: any[];
+  jobDescriptionEs?: any[];
   chronoIndex: number;
 }
 
@@ -20,6 +29,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
   query: `*[_type == "workExperience"] {
     title,
     jobTitle,
+    jobTitleEs,
     startDate,
     endDate,
     current,
@@ -27,31 +37,47 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
     companyName,
     modality,
     jobDescription,
+    jobDescriptionEs,
     chronoIndex
   }`,
 });
 ---
 
 <section>
-  <p class="text-xl lg:text-2xl font-medium mb-2 lg:mb-4">Work Experience</p>
+  <p class="text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
+    {t(lang, "workExperience")}
+  </p>
 
   {
     workExperiences
       ?.sort((a, b) => b.chronoIndex - a.chronoIndex)
       ?.map((experience) => {
-        const { formattedStart, formattedEnd } = formatDateRangeHelper({
-          startDate: experience.startDate,
-          endDate: experience.endDate,
-          current: experience.current,
-        });
+        const { formattedStart, formattedEnd } = formatDateRangeHelper(
+          {
+            startDate: experience.startDate,
+            endDate: experience.endDate,
+            current: experience.current,
+          },
+          lang,
+        );
+
+        const jobTitle =
+          lang === "es"
+            ? (experience.jobTitleEs ?? experience.jobTitle)
+            : experience.jobTitle;
+        const jobDescription =
+          lang === "es"
+            ? (experience.jobDescriptionEs ?? experience.jobDescription)
+            : experience.jobDescription;
+        const modality = getModality(lang, experience.modality);
 
         return (
           <article class="my-3 font-normal text-base">
             <p class="text-base lg:text-lg font-semibold lg:font-medium">
-              {experience.jobTitle}
+              {jobTitle}
             </p>
             <p class="text-base font-medium lg:font-normal lg:text-lg italic">
-              {experience.companyName}, {experience.modality} | {formattedStart}{" "}
+              {experience.companyName}, {modality} | {formattedStart}{" "}
               - {formattedEnd}
             </p>
             {!experience.hideDescription && (
@@ -59,7 +85,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
                 class="font-normal text-gray-800 text-justify leading-relaxed"
                 id="block-content"
               >
-                <PortableText portableText={experience.jobDescription} />
+                <PortableText portableText={jobDescription} />
               </div>
             )}
           </article>

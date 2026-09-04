@@ -2,15 +2,24 @@
 import { loadQuery } from "../sanity/lib/load-query";
 import PortableText from "../components/portable-text.astro";
 import { formatDateRangeHelper } from "../utils/helpers";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props as Props;
 
 interface volunteering {
   title: string;
   role: string;
+  roleEs?: string;
   startDate: string;
   endDate: string;
   current: boolean;
   organization: string;
   description: any[];
+  descriptionEs?: any[];
   chronoIndex: number;
 }
 
@@ -18,11 +27,13 @@ const { data } = await loadQuery<volunteering[]>({
   query: `*[_type == "volunteering"] {
     title,
     role,
+    roleEs,
     startDate,
     endDate,
     current,
     organization,
     description,
+    descriptionEs,
     chronoIndex
   }`,
 });
@@ -31,20 +42,32 @@ const { data } = await loadQuery<volunteering[]>({
 <section>
   <!-- Volunteering -->
   <article>
-    <p class="text-xl lg:text-2xl font-medium mb-2 lg:mb-4">Volunteering</p>
+    <p class="text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
+      {t(lang, "volunteering")}
+    </p>
     {
       data
         ?.sort((a, b) => b.chronoIndex - a.chronoIndex)
         ?.map((items) => {
-          const { formattedStart, formattedEnd } = formatDateRangeHelper({
-            startDate: items.startDate,
-            endDate: items.endDate,
-            current: items.current,
-          });
+          const { formattedStart, formattedEnd } = formatDateRangeHelper(
+            {
+              startDate: items.startDate,
+              endDate: items.endDate,
+              current: items.current,
+            },
+            lang,
+          );
+
+          const role =
+            lang === "es" ? (items.roleEs ?? items.role) : items.role;
+          const description =
+            lang === "es"
+              ? (items.descriptionEs ?? items.description)
+              : items.description;
 
           return (
             <article class="my-3">
-              <p class="text-base lg:text-lg font-medium">{items.role}</p>
+              <p class="text-base lg:text-lg font-medium">{role}</p>
               <p class="text-base lg:text-lg italic">
                 {items.organization} | {formattedStart} - {formattedEnd}
               </p>
@@ -52,7 +75,7 @@ const { data } = await loadQuery<volunteering[]>({
                 class="font-normal text-gray-800 text-justify leading-relaxed"
                 id="block-content"
               >
-                <PortableText portableText={items.description} />
+                <PortableText portableText={description} />
               </div>
             </article>
           );

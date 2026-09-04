@@ -1,31 +1,30 @@
+import { monthsMap, t, type Lang } from "../../i18n/ui";
+
 interface DateRange {
   startDate: string;
   endDate?: string | null;
   current?: boolean;
 }
 
-export const formatToMonthYearHelper = (date: Date) => {
-  const options: Intl.DateTimeFormatOptions = {
-    month: "short",
-    year: "numeric",
-  };
-  return new Intl.DateTimeFormat("en-GB", options)
-    .format(date)
-    .replace(" ", "-");
+export const formatToMonthYearHelper = (date: Date, lang: Lang = "en") => {
+  const months = monthsMap[lang];
+  const month = months[date.getUTCMonth()];
+  const year = date.getUTCFullYear();
+  return `${month}-${year}`;
 };
 
-export const formatDateRangeHelper = (dates: DateRange) => {
+export const formatDateRangeHelper = (dates: DateRange, lang: Lang = "en") => {
   const start = new Date(dates.startDate);
   const end = dates.endDate ? new Date(dates.endDate) : null;
 
   const formattedStart = isNaN(start.getTime())
     ? "Invalid Date"
-    : formatToMonthYearHelper(start);
+    : formatToMonthYearHelper(start, lang);
 
   const formattedEnd = dates.current
-    ? "Present"
+    ? t(lang, "present")
     : end && !isNaN(end.getTime())
-      ? formatToMonthYearHelper(end)
+      ? formatToMonthYearHelper(end, lang)
       : "Invalid Date";
 
   return { formattedStart, formattedEnd };

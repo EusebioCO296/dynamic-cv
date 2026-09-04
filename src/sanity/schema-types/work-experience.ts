@@ -16,6 +16,11 @@ export const workExperience = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "jobTitleEs",
+      title: "Job Title (ES)",
+      type: "string",
+    }),
+    defineField({
       name: "startDate",
       title: "Start Date",
       type: "date",
@@ -66,6 +71,22 @@ export const workExperience = defineType({
     defineField({
       name: "jobDescription",
       title: "Job Description",
+      type: "array",
+      of: [
+        {
+          title: "Block",
+          type: "block",
+          styles: [{ title: "Normal", value: "normal" }],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "jobDescriptionEs",
+      title: "Job Description (ES)",
       type: "array",
       of: [
         {

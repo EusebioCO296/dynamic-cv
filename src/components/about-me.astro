@@ -3,12 +3,20 @@ import { Icon } from "astro-icon/components";
 
 import { loadQuery } from "../sanity/lib/load-query";
 import PortableText from "./portable-text.astro";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props as Props;
 
 interface AboutMe {
   title: string;
   firstName: string;
   surname: string;
   jobTitle: string;
+  jobTitleEs?: string;
   defaultContactInfo: {
     phone: string;
     city: string;
@@ -18,8 +26,11 @@ interface AboutMe {
   email: string;
   links: any[];
   skills: any[];
+  skillsEs?: any[];
   languages: any[];
+  languagesEs?: any[];
   bio: any;
+  bioEs?: any;
 }
 
 const { data } = await loadQuery<AboutMe[]>({
@@ -28,6 +39,7 @@ const { data } = await loadQuery<AboutMe[]>({
     firstName,
     surname,
     jobTitle,
+    jobTitleEs,
     city,
     country,
     phone,
@@ -36,12 +48,24 @@ const { data } = await loadQuery<AboutMe[]>({
     email,
     links[] {...,},
     skills[] {...,},
+    skillsEs[] {...,},
     languages[] {...,},
-    bio
+    languagesEs[] {...,},
+    bio,
+    bioEs
   }`,
 });
 
 const aboutMe = data[0];
+
+const jobTitle =
+  lang === "es" ? (aboutMe.jobTitleEs ?? aboutMe.jobTitle) : aboutMe.jobTitle;
+const skills =
+  lang === "es" ? (aboutMe.skillsEs ?? aboutMe.skills) : aboutMe.skills;
+const languages =
+  lang === "es"
+    ? (aboutMe.languagesEs ?? aboutMe.languages)
+    : aboutMe.languages;
 ---
 
 <section class="text-gray-900">
@@ -50,7 +74,7 @@ const aboutMe = data[0];
       {aboutMe.firstName}
     </p>
     <p class="text-4xl lg:text-6xl font-thin py-2 lg:py-5">{aboutMe.surname}</p>
-    <p class="font-normal text-lg">{aboutMe.jobTitle}</p>
+    <p class="font-normal text-lg">{jobTitle}</p>
   </article>
 
   <!-- Bio -->
@@ -62,7 +86,7 @@ const aboutMe = data[0];
 
   <!-- Contact Info -->
   <article class="mt-5 font-normal text-base">
-    <p class="text-xl lg:text-2xl font-medium">Contact Info</p>
+    <p class="text-xl lg:text-2xl font-medium">{t(lang, "contactInfo")}</p>
     <div class="flex items-center my-2">
       <Icon name="location" class="w-4 h-4 lg:w-6 lg:h-6" />
       <p class="ml-2" id="location-based-content">
@@ -84,7 +108,7 @@ const aboutMe = data[0];
 
   <!-- Social Links -->
   <article class="font-normal text-base">
-    <p class="text-xl lg:text-2xl font-medium">Social Links</p>
+    <p class="text-xl lg:text-2xl font-medium">{t(lang, "socialLinks")}</p>
     {
       aboutMe.links?.map((items: { platformName: string; link: string }) => (
         <div class="flex items-center">
@@ -100,15 +124,15 @@ const aboutMe = data[0];
 
   <!-- Skills -->
   <article class="font-normal text-base leading-relaxed">
-    <p class="text-xl lg:text-2xl font-medium">Skills</p>
-    <PortableText portableText={aboutMe.skills} />
+    <p class="text-xl lg:text-2xl font-medium">{t(lang, "skills")}</p>
+    <PortableText portableText={skills} />
   </article>
   <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" />
 
   <!-- Languages -->
   <article>
-    <p class="text-xl lg:text-2xl font-medium">Languages</p>
-    <PortableText portableText={aboutMe.languages} />
+    <p class="text-xl lg:text-2xl font-medium">{t(lang, "languages")}</p>
+    <PortableText portableText={languages} />
   </article>
 </section>
 
