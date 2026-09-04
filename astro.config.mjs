@@ -14,6 +14,10 @@ const env = loadEnv("", process.cwd(), "PUBLIC_");
 export default defineConfig({
   output: "server",
   adapter: netlify(),
+  redirects: {
+    "/resume": "/resume/en",
+    "/resume-es": "/resume/es",
+  },
   integrations: [sanity({
     projectId: env.PUBLIC_SANITY_PROJECT_ID,
     dataset: env.PUBLIC_SANITY_DATASET,

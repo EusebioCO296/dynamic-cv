@@ -17,8 +17,6 @@ interface Props {
 const { lang = "en" } = Astro.props as Props;
 
 const title = lang === "es" ? "CV" : "Resume";
-const toggleHref = lang === "es" ? "/resume" : "/resume-es";
-const toggleTitle = lang === "es" ? "Switch to English" : "Cambiar a Español";
 ---
 
 <Layout title={title} lang={lang}>
@@ -37,28 +35,28 @@ const toggleTitle = lang === "es" ? "Switch to English" : "Cambiar a Español";
     </main>
 
     <!-- Language toggle -->
-    <a
+    <div
       id="lang-toggle"
-      href={toggleHref}
-      title={toggleTitle}
-      class="fixed top-5 right-5 lg:right-10 text-sm font-medium text-gray-900 hover:text-gray-500 transition ease-in-out duration-200 z-10 flex items-center gap-1"
+      class="fixed top-5 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1"
     >
-      {
-        lang === "es" ? (
-          <>
-            <span class="text-gray-400">ES</span>
-            <span class="text-gray-300">|</span>
-            <span>EN</span>
-          </>
-        ) : (
-          <>
-            <span>ES</span>
-            <span class="text-gray-300">|</span>
-            <span class="text-gray-400">EN</span>
-          </>
-        )
-      }
-    </a>
+      <a
+        href="/resume/es"
+        title={lang === "es" ? "Ya estás en Español" : "Cambiar a Español"}
+        aria-current={lang === "es" ? "page" : undefined}
+        class={`transition ease-in-out duration-200 hover:text-gray-500 ${lang === "es" ? "text-gray-900" : "text-gray-400"}`}
+      >
+        ES
+      </a>
+      <span class="text-gray-300">|</span>
+      <a
+        href="/resume/en"
+        title={lang === "en" ? "You are already in English" : "Switch to English"}
+        aria-current={lang === "en" ? "page" : undefined}
+        class={`transition ease-in-out duration-200 hover:text-gray-500 ${lang === "en" ? "text-gray-900" : "text-gray-400"}`}
+      >
+        EN
+      </a>
+    </div>
 
     <button
       id="print-button"
