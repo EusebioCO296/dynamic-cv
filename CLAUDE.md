@@ -43,3 +43,10 @@ Required in `.env`:
 - `PUBLIC_SANITY_DATASET`
 - `SANITY_API_READ_TOKEN`
 - `PUBLIC_GEOLOCATION_API_KEY`
+
+Basic Auth (protege `/resume/*` y sus redirects, ver `src/middleware.ts`). Una sola variable, solo contraseña:
+- `PASSWORD_SITE`
+
+Ponla en `.env.local` para desarrollo local (nunca en `.env`, que va versionado); en Netlify: Site settings → Environment variables. El campo usuario del diálogo Basic Auth del navegador se ignora — solo se valida la contraseña.
+
+Si no está configurada: en dev el middleware deja pasar (con aviso en consola); en producción bloquea todo con 503.
