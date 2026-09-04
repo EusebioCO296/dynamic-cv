@@ -2,8 +2,7 @@
 import { Icon } from "astro-icon/components";
 
 import { loadQuery } from "../sanity/lib/load-query";
-import PortableText from "./portable-text.astro";
-import { t, type Lang } from "../i18n/ui";
+import { type Lang } from "../i18n/ui";
 
 interface Props {
   lang?: Lang;
@@ -25,12 +24,6 @@ interface AboutMe {
   dynamicContactInfo: any[];
   email: string;
   links: any[];
-  skills: any[];
-  skillsEs?: any[];
-  languages: any[];
-  languagesEs?: any[];
-  bio: any;
-  bioEs?: any;
 }
 
 const { data } = await loadQuery<AboutMe[]>({
@@ -46,13 +39,7 @@ const { data } = await loadQuery<AboutMe[]>({
     defaultContactInfo{...},
     dynamicContactInfo[] {...,},
     email,
-    links[] {...,},
-    skills[] {...,},
-    skillsEs[] {...,},
-    languages[] {...,},
-    languagesEs[] {...,},
-    bio,
-    bioEs
+    links[] {...,}
   }`,
 });
 
@@ -60,79 +47,53 @@ const aboutMe = data[0];
 
 const jobTitle =
   lang === "es" ? (aboutMe.jobTitleEs ?? aboutMe.jobTitle) : aboutMe.jobTitle;
-const skills =
-  lang === "es" ? (aboutMe.skillsEs ?? aboutMe.skills) : aboutMe.skills;
-const languages =
-  lang === "es"
-    ? (aboutMe.languagesEs ?? aboutMe.languages)
-    : aboutMe.languages;
 ---
 
 <section class="text-gray-900">
   <article>
-    <p class="text-2xl lg:text-4xl font-medium">
+    <h1 class="text-3xl lg:text-5xl font-medium leading-tight">
       {aboutMe.firstName}
+      <span class="font-thin">{aboutMe.surname}</span>
+    </h1>
+    <p class="font-normal text-lg lg:text-xl text-gray-700 mt-1">
+      {jobTitle}
     </p>
-    <p class="text-4xl lg:text-6xl font-thin py-2 lg:py-5">{aboutMe.surname}</p>
-    <p class="font-normal text-lg">{jobTitle}</p>
   </article>
 
-  <!-- Bio -->
-  <!-- <article class="mt-5 leading-relaxed">
-    <p class="text-2xl font-medium mb-4">About Me</p>
-    <p class="font-normal text-gray-800 text-justify">{aboutMe.bio}</p>
-  </article>
-  <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" /> -->
-
-  <!-- Contact Info -->
-  <article class="mt-5 font-normal text-base">
-    <p class="text-xl lg:text-2xl font-medium">{t(lang, "contactInfo")}</p>
-    <div class="flex items-center my-2">
-      <Icon name="location" class="w-4 h-4 lg:w-6 lg:h-6" />
-      <p class="ml-2" id="location-based-content">
-        {aboutMe.defaultContactInfo.city}, {aboutMe.defaultContactInfo.country}
-      </p>
-    </div>
-    <div class="flex items-center my-1 lg:my-2">
-      <Icon name="phone" class="w-4 h-4 lg:w-6 lg:h-6" />
-      <p class="ml-2" id="phone-based-content">
-        {aboutMe.defaultContactInfo.phone}
-      </p>
-    </div>
-    <div class="flex items-center my-2">
-      <Icon name="email" class="w-4 h-4 lg:w-6 lg:h-6" />
-      <p class="ml-2">{aboutMe.email}</p>
-    </div>
-  </article>
-  <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" />
-
-  <!-- Social Links -->
-  <article class="font-normal text-base">
-    <p class="text-xl lg:text-2xl font-medium">{t(lang, "socialLinks")}</p>
+  <!-- Contact line -->
+  <article
+    class="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-sm lg:text-base text-gray-800"
+  >
+    <span class="inline-flex items-center gap-1">
+      <Icon name="location" class="w-4 h-4" />
+      <span id="location-based-content"
+        >{aboutMe.defaultContactInfo.city}, {
+          aboutMe.defaultContactInfo.country
+        }</span
+      >
+    </span>
+    <span class="text-gray-300" aria-hidden="true">·</span>
+    <span class="inline-flex items-center gap-1">
+      <Icon name="phone" class="w-4 h-4" />
+      <span id="phone-based-content">{aboutMe.defaultContactInfo.phone}</span>
+    </span>
+    <span class="text-gray-300" aria-hidden="true">·</span>
+    <span class="inline-flex items-center gap-1">
+      <Icon name="email" class="w-4 h-4" />
+      <a href={`mailto:${aboutMe.email}`}>{aboutMe.email}</a>
+    </span>
     {
       aboutMe.links?.map((items: { platformName: string; link: string }) => (
-        <div class="flex items-center">
-          <span class="mr-2">{items.platformName}:</span>
+        <>
+          <span class="text-gray-300" aria-hidden="true">
+            ·
+          </span>
           <a href={items.link} target="_blank" rel="noopener noreferrer">
-            {items.link}
+            {items.platformName}
           </a>
-        </div>
+        </>
       ))
     }
-  </article>
-  <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" />
-
-  <!-- Skills -->
-  <article class="font-normal text-base leading-relaxed">
-    <p class="text-xl lg:text-2xl font-medium">{t(lang, "skills")}</p>
-    <PortableText portableText={skills} />
-  </article>
-  <hr class="separator w-full lg:w-96 border-0 bg-gray-900 h-0.5 my-2" />
-
-  <!-- Languages -->
-  <article>
-    <p class="text-xl lg:text-2xl font-medium">{t(lang, "languages")}</p>
-    <PortableText portableText={languages} />
   </article>
 </section>
 
@@ -158,18 +119,10 @@ const languages =
     const phoneContent = document.getElementById("phone-based-content");
 
     if (locationContent && phoneContent) {
-      locationContent.innerHTML = `<p class="">${city}, ${country}</p>`;
-      phoneContent.innerHTML = `<p class="">${phone}</p>`;
+      locationContent.textContent = `${city}, ${country}`;
+      phoneContent.textContent = phone;
     }
   }
 
   init();
 </script>
-
-<style>
-  @media print {
-    .separator {
-      width: 220px;
-    }
-  }
-</style>

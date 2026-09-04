@@ -22,13 +22,21 @@ const { data } = await loadQuery<bio[]>({
 
 const aboutMe = data[0];
 const bio = lang === "es" ? (aboutMe.bioEs ?? aboutMe.bio) : aboutMe.bio;
+const bioParagraphs = (bio ?? "").split("\n\n").filter(Boolean);
 ---
 
 <section class="text-gray-900">
   <!-- Bio -->
-  <article class="font-normal"></article>
-  <p class="text-xl lg:text-2xl font-medium mb-2 lg:mb-4">{t(lang, "aboutMe")}</p>
-  <p class="font-normal text-gray-800 text-justify text-base leading-relaxed">
-    {bio}
+  <p class="section-title text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
+    {t(lang, "professionalProfile")}
   </p>
+  <div class="flex flex-col gap-3 lg:gap-4">
+    {
+      bioParagraphs.map((paragraph) => (
+        <p class="font-normal text-gray-800 text-justify text-base leading-relaxed">
+          {paragraph}
+        </p>
+      ))
+    }
+  </div>
 </section>

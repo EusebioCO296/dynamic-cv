@@ -44,7 +44,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
 ---
 
 <section>
-  <p class="text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
+  <p class="section-title text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
     {t(lang, "workExperience")}
   </p>
 
@@ -72,7 +72,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
         const modality = getModality(lang, experience.modality);
 
         return (
-          <article class="my-3 font-normal text-base">
+          <article class="cv-entry my-4 font-normal text-base">
             <p class="text-base lg:text-lg font-semibold lg:font-medium">
               {jobTitle}
             </p>
@@ -93,10 +93,3 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
       })
   }
 </section>
-
-<style>
-  :global(#block-content ul) {
-    list-style-type: disc;
-    @apply ml-4;
-  }
-</style>
