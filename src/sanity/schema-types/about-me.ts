@@ -151,15 +151,5 @@ export const aboutMe = defineType({
       title: "Bio (ES)",
       type: "text",
     }),
-    defineField({
-      name: "coreTech",
-      title: "Core Technologies",
-      type: "blockContent",
-    }),
-    defineField({
-      name: "coreTechEs",
-      title: "Core Technologies (ES)",
-      type: "blockContent",
-    }),
   ],
 });

@@ -14,8 +14,10 @@
  *
  * Escribe:
  *   - aboutMe (documento único): jobTitle/jobTitleEs, bio/bioEs,
- *     skills/skillsEs, coreTech/coreTechEs
+ *     skills/skillsEs
  *     (languages/languagesEs NO se tocan: ya viven dentro de skills/skillsEs)
+ *     Además BORRA (unset) coreTech/coreTechEs: campo redundante con
+ *     skills/skillsEs, eliminado del schema.
  *   - workExperience (match por companyName): jobTitle/jobTitleEs,
  *     jobDescription/jobDescriptionEs (+ hideDescription:false en O.S Group)
  *   - volunteering (match por organization): role/roleEs,
@@ -210,25 +212,6 @@ const aboutMeContent = {
     block([{ text: "Languages", strong: true }]),
     block("Spanish · English"),
   ],
-
-  // Campo nuevo (schema añadido en paralelo por otro worker): "Tecnologías
-  // principales" — una sola línea en negrita, tecnologías separadas por " · ".
-  coreTechEs: [
-    block([
-      {
-        text: "TypeScript · JavaScript · React · Next.js · Node.js · NestJS · PostgreSQL · MongoDB · GraphQL · Tailwind CSS · Redux · Redux Saga · Git · GitHub · LLMs · Tool Calling · Agentic Workflows · OpenAPI · Context Engineering",
-        strong: true,
-      },
-    ]),
-  ],
-  coreTech: [
-    block([
-      {
-        text: "TypeScript · JavaScript · React · Next.js · Node.js · NestJS · PostgreSQL · MongoDB · GraphQL · Tailwind CSS · Redux · Redux Saga · Git · GitHub · LLMs · Tool Calling · Agentic Workflows · OpenAPI · Context Engineering",
-        strong: true,
-      },
-    ]),
-  ],
 };
 
 // ---------------------------------------------------------------------------
@@ -242,112 +225,70 @@ const workExperienceContent = [
     jobTitle: "Full-Stack Developer",
     jobDescriptionEs: bulletList([
       [
-        {
-          text: "Desarrollo y evolución de aplicaciones Full-Stack con ",
-        },
+        { text: "Desarrollo Full-Stack con " },
         { text: "NestJS, Next.js y TypeScript", strong: true },
-        {
-          text: ": diseño de servicios backend y APIs orientadas a negocio, interfaces web mantenibles y traducción de requisitos funcionales en decisiones técnicas concretas, en un entorno remoto y ágil.",
-        },
+        { text: ": servicios backend, APIs orientadas a negocio e interfaces web mantenibles, en un entorno remoto y ágil." },
       ],
       [
-        { text: "Diseño y desarrollo de un " },
-        { text: "harness agéntico basado en OpenAPI", strong: true },
-        { text: " que permite operar la aplicación en lenguaje natural mediante una " },
+        { text: "Harness agéntico basado en OpenAPI con " },
         { text: "Agentic UI", strong: true },
-        { text: ": el agente interpreta la intención, selecciona la herramienta y ejecuta la operación sobre el backend a través de un " },
-        { text: "agentic tool-calling loop", strong: true },
-        { text: " iterativo (intención → selección → ejecución → resultado → continuación o cierre)." },
-      ],
-      [
-        { text: "Generación y registro dinámico de tools", strong: true },
-        { text: " a partir de la especificación " },
-        { text: "OpenAPI/Swagger", strong: true },
-        { text: " del propio backend, con caché por hash del spec: una capacidad nueva de la API se convierte automáticamente en una herramienta del agente sin código manual." },
-      ],
-      [
-        { text: "Arquitectura " },
+        { text: ": " },
+        { text: "tool-calling loop", strong: true },
+        { text: " iterativo, generación dinámica de tools desde el spec y arquitectura " },
         { text: "LLM-agnostic", strong: true },
-        { text: " con una capa común de orquestación que desacopla el agente del proveedor de modelos (Anthropic y proveedores compatibles con OpenAI), con catálogo de proveedores, modelos y tarifas administrable en tiempo de ejecución." },
+        { text: "." },
       ],
       [
-        { text: "Tool routing", strong: true },
-        { text: ": clasificador previo de bajo costo que reduce un catálogo de más de 140 herramientas a las relevantes para cada mensaje antes del turno principal, mejorando precisión y costo por conversación." },
-      ],
-      [
-        { text: "Context engineering", strong: true },
-        { text: " para producción: ventanas de historial que preservan la integridad de los pares tool call / tool result, poda por presupuesto de tokens, compactación de resultados y spill de resultados voluminosos fuera del contexto con referencia recuperable." },
-      ],
-      [
-        { text: "Guardrails determinísticos", strong: true },
-        { text: ": detección de parámetros requeridos faltantes con formularios inline al usuario, validación de entradas y control de operaciones que exigen confirmación antes de ejecutarse." },
-      ],
-      [
-        { text: "Flujos " },
+        { text: "Producción a escala: " },
+        { text: "tool routing", strong: true },
+        { text: " sobre 140+ herramientas, " },
+        { text: "context engineering", strong: true },
+        { text: ", " },
+        { text: "guardrails determinísticos", strong: true },
+        { text: " y flujos " },
         { text: "human-in-the-loop", strong: true },
-        { text: " para acciones sensibles: cada aprobación se vincula a una llamada concreta fijada por el servidor, nunca a un turno completo, garantizando que lo ejecutado es exactamente lo aprobado." },
+        { text: "." },
       ],
       [
-        { text: "Autorización", strong: true },
-        { text: " integrada con " },
+        { text: "Autorización con " },
         { text: "CASL", strong: true },
-        { text: " y el sistema de permisos multi-tenant: las herramientas ofrecidas al modelo se filtran por los permisos reales del usuario y cada ejecución se realiza con su propio token, de modo que guards, tenant y permisos se aplican de nuevo en cada llamada." },
-      ],
-      [
-        { text: "Trazabilidad y auditoría", strong: true },
-        { text: ": registro de acciones y del par solicitud/decisión de cada confirmación, más seguimiento de consumo de LLM por tenant y usuario." },
+        { text: " multi-tenant, " },
+        { text: "trazabilidad", strong: true },
+        { text: " y seguimiento de consumo de LLM." },
       ],
     ]),
     jobDescription: bulletList([
       [
-        { text: "Development and evolution of Full-Stack applications using " },
+        { text: "Full-Stack development with " },
         { text: "NestJS, Next.js, and TypeScript", strong: true },
-        { text: ": designing backend services and business-oriented APIs, maintainable web interfaces, and translating functional requirements into concrete technical decisions, in a remote, agile environment." },
+        { text: ": backend services, business-oriented APIs, and maintainable web interfaces, in a remote, agile environment." },
       ],
       [
-        { text: "Design and development of an " },
-        { text: "OpenAPI-based agentic harness", strong: true },
-        { text: " that operates the application in natural language through an " },
+        { text: "OpenAPI-based agentic harness with " },
         { text: "Agentic UI", strong: true },
-        { text: ": the agent interprets intent, selects the tool, and executes the operation against the backend through an iterative " },
-        { text: "agentic tool-calling loop", strong: true },
-        { text: " (intent → selection → execution → result → continuation or closure)." },
-      ],
-      [
-        { text: "Dynamic generation and registration of tools", strong: true },
-        { text: " from the backend's own " },
-        { text: "OpenAPI/Swagger", strong: true },
-        { text: " specification, with spec-hash-based caching: a new API capability automatically becomes an agent tool with no manual code." },
-      ],
-      [
+        { text: ": iterative " },
+        { text: "tool-calling loop", strong: true },
+        { text: ", dynamic tool generation from the spec, and " },
         { text: "LLM-agnostic", strong: true },
-        { text: " architecture with a common orchestration layer that decouples the agent from the model provider (Anthropic and OpenAI-compatible providers), with a runtime-configurable catalog of providers, models, and rates." },
+        { text: " architecture." },
       ],
       [
-        { text: "Tool routing", strong: true },
-        { text: ": a low-cost pre-classifier that narrows a catalog of 140+ tools down to those relevant to each message before the main turn, improving accuracy and cost per conversation." },
+        { text: "Production at scale: " },
+        { text: "tool routing", strong: true },
+        { text: " across 140+ tools, " },
+        { text: "context engineering", strong: true },
+        { text: ", " },
+        { text: "deterministic guardrails", strong: true },
+        { text: ", and " },
+        { text: "human-in-the-loop", strong: true },
+        { text: " flows." },
       ],
       [
-        { text: "Context engineering", strong: true },
-        { text: " for production: history windows that preserve the integrity of tool call / tool result pairs, token-budget pruning, result compaction, and spilling large results out of context with a retrievable reference." },
-      ],
-      [
-        { text: "Deterministic guardrails", strong: true },
-        { text: ": detection of missing required parameters with inline forms to the user, input validation, and gating of operations that require confirmation before execution." },
-      ],
-      [
-        { text: "Human-in-the-loop", strong: true },
-        { text: " flows for sensitive actions: each approval is bound to a specific call fixed by the server, never to an entire turn, guaranteeing that what gets executed is exactly what was approved." },
-      ],
-      [
-        { text: "Authorization", strong: true },
-        { text: " integrated with " },
-        { text: "CASL", strong: true },
-        { text: " and the multi-tenant permission system: the tools offered to the model are filtered by the user's actual permissions, and each execution runs with its own token, so guards, tenant, and permissions are re-applied on every call." },
-      ],
-      [
-        { text: "Traceability and auditing", strong: true },
-        { text: ": logging of actions and of the request/decision pair for each confirmation, plus tracking of LLM usage per tenant and user." },
+        { text: "Authorization with " },
+        { text: "multi-tenant CASL", strong: true },
+        { text: ", " },
+        { text: "traceability", strong: true },
+        { text: ", and LLM usage tracking." },
       ],
     ]),
   },
@@ -552,6 +493,17 @@ function printFieldDiff(label, currentValue, newValue, isPortableText) {
   console.log(`    nuevo  -> ${JSON.stringify(next)}`);
 }
 
+function printUnsetDiff(label, currentValue, isPortableText) {
+  const current = isPortableText
+    ? ptToPlainText(currentValue)
+    : (currentValue ?? "(vacío)");
+  console.log(`  ${label}:`);
+  console.log(`    actual -> ${JSON.stringify(current)}`);
+  console.log(
+    `    SE BORRARÁ (unset) — campo eliminado del schema, ya no se escribe.`,
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Migración por tipo de documento
 // ---------------------------------------------------------------------------
@@ -577,7 +529,13 @@ async function migrateSingleton({
   console.log(`Documento: ${doc._id}`);
 
   const patch = {};
+  const unset = [];
   for (const f of fields) {
+    if (f.unset) {
+      printUnsetDiff(f.field, doc[f.field], f.portableText);
+      unset.push(f.field);
+      continue;
+    }
     const newValue = translation[f.field];
     printFieldDiff(f.field, doc[f.field], newValue, f.portableText);
     if (newValue !== null && newValue !== undefined) {
@@ -585,7 +543,7 @@ async function migrateSingleton({
     }
   }
 
-  return [{ _id: doc._id, patch }];
+  return [{ _id: doc._id, patch, unset }];
 }
 
 async function migrateCollection({
@@ -642,7 +600,7 @@ async function migrateCollection({
         patch[f.field] = newValue;
       }
     }
-    patches.push({ _id: doc._id, patch });
+    patches.push({ _id: doc._id, patch, unset: [] });
   }
 
   return patches;
@@ -672,8 +630,8 @@ async function main() {
         { field: "bioEs" },
         { field: "skills", portableText: true },
         { field: "skillsEs", portableText: true },
-        { field: "coreTech", portableText: true },
-        { field: "coreTechEs", portableText: true },
+        { field: "coreTech", portableText: true, unset: true },
+        { field: "coreTechEs", portableText: true, unset: true },
       ],
     })),
   );
@@ -737,9 +695,15 @@ async function main() {
 
   console.log(`Escribiendo ${allPatches.length} documento(s) en Sanity...`);
   const tx = client.transaction();
-  for (const { _id, patch } of allPatches) {
-    if (Object.keys(patch).length === 0) continue;
-    tx.patch(_id, (p) => p.set(patch));
+  for (const { _id, patch, unset } of allPatches) {
+    const hasSet = Object.keys(patch).length > 0;
+    const hasUnset = unset && unset.length > 0;
+    if (!hasSet && !hasUnset) continue;
+    tx.patch(_id, (p) => {
+      if (hasSet) p.set(patch);
+      if (hasUnset) p.unset(unset);
+      return p;
+    });
   }
   await tx.commit();
   console.log("Listo.");
