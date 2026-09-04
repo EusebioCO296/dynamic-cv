@@ -67,7 +67,7 @@ function getEnv(key) {
 const projectId = getEnv("PUBLIC_SANITY_PROJECT_ID");
 const dataset = getEnv("PUBLIC_SANITY_DATASET");
 const readToken = getEnv("SANITY_API_READ_TOKEN");
-const writeToken = getEnv("SANITY_API_WRITE_TOKEN");
+const writeToken = getEnv("SANITY_API_WRITE_TOKEN") || getEnv("SANITY_API_TOKEN");
 
 if (!projectId || !dataset) {
   console.error(
@@ -80,7 +80,7 @@ if (COMMIT && !writeToken) {
   console.error(
     [
       "",
-      "No se encontró SANITY_API_WRITE_TOKEN — no se puede escribir en Sanity.",
+      "No se encontró SANITY_API_WRITE_TOKEN ni SANITY_API_TOKEN — no se puede escribir en Sanity.",
       "",
       "Cómo generarlo:",
       `  1. Ve a https://www.sanity.io/manage/project/${projectId}/api#tokens`,
@@ -90,6 +90,7 @@ if (COMMIT && !writeToken) {
       "Dónde ponerlo:",
       "  Añade esta línea a .env.local (en la raíz del proyecto, NO a .env — .env.local no se versiona):",
       "    SANITY_API_WRITE_TOKEN=<tu-token>",
+      "  (o usa SANITY_API_TOKEN como alternativa)",
       "",
     ].join("\n"),
   );
