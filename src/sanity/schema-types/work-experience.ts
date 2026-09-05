@@ -56,6 +56,11 @@ export const workExperience = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "companyNameEs",
+      title: "Company Name (ES)",
+      type: "string",
+    }),
+    defineField({
       name: "modality",
       title: "Modality",
       type: "string",

@@ -176,7 +176,7 @@ const workExperienceEs = [
     ]),
   },
   {
-    match: "DaVinci Health Malta (Europa)",
+    match: "DaVinci Health Malta (Europe)",
     jobTitleEs: "Desarrollador Full Stack",
     jobDescriptionEs: bulletList([
       "Contribuí significativamente a la modernización del sistema ERP del hospital diseñando e implementando una solución unificada. Este trabajo optimizó procesos, mejoró la atención al paciente y potenció la toma de decisiones basada en datos.",

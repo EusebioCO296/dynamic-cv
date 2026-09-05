@@ -43,6 +43,7 @@ interface WorkExperience {
   current: boolean;
   hideDescription?: boolean;
   companyName: string;
+  companyNameEs?: string;
   modality: string;
   jobDescription: any[];
   jobDescriptionEs?: any[];
@@ -59,6 +60,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
     current,
     hideDescription,
     companyName,
+    companyNameEs,
     modality,
     jobDescription,
     jobDescriptionEs,
@@ -94,6 +96,10 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
           lang === "es"
             ? (experience.jobDescriptionEs ?? experience.jobDescription)
             : experience.jobDescription;
+        const companyName =
+          lang === "es"
+            ? (experience.companyNameEs ?? experience.companyName)
+            : experience.companyName;
         const modality = getModality(experience.modality);
 
         return (
@@ -102,7 +108,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
               {jobTitle}
             </p>
             <p class="text-base font-medium lg:font-normal lg:text-lg italic">
-              {experience.companyName}, {modality} | {formattedStart}{" "}
+              {companyName}, {modality} | {formattedStart}{" "}
               - {formattedEnd}
             </p>
             {!experience.hideDescription && (

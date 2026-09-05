@@ -293,7 +293,7 @@ const workExperienceContent = [
     ]),
   },
   {
-    match: "DaVinci Health Malta (Europa)",
+    match: "DaVinci Health Malta (Europe)",
     jobTitleEs: "Desarrollador Full-Stack",
     jobTitle: "Full-Stack Developer",
     jobDescriptionEs: bulletList([
