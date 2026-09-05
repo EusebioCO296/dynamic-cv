@@ -220,7 +220,7 @@ const aboutMeContent = {
 
 const workExperienceContent = [
   {
-    match: "8base",
+    match: "Archie",
     jobTitleEs: "Desarrollador Full-Stack",
     jobTitle: "Full-Stack Developer",
     jobDescriptionEs: bulletList([

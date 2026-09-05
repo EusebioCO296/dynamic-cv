@@ -185,7 +185,7 @@ const workExperienceEs = [
     ]),
   },
   {
-    match: "8base",
+    match: "Archie",
     jobTitleEs: "Desarrollador Full-Stack",
     jobDescriptionEs: [
       block(
