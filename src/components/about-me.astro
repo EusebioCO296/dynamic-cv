@@ -1,6 +1,4 @@
 ---
-import { Icon } from "astro-icon/components";
-
 import { loadQuery } from "../sanity/lib/load-query";
 import { type Lang } from "../i18n/ui";
 
@@ -20,6 +18,8 @@ interface AboutMe {
     phone: string;
     city: string;
     country: string;
+    cityEs?: string;
+    countryEs?: string;
   };
   dynamicContactInfo: any[];
   email: string;
@@ -47,11 +47,21 @@ const aboutMe = data[0];
 
 const jobTitle =
   lang === "es" ? (aboutMe.jobTitleEs ?? aboutMe.jobTitle) : aboutMe.jobTitle;
+
+const city =
+  lang === "es"
+    ? (aboutMe.defaultContactInfo.cityEs ?? aboutMe.defaultContactInfo.city)
+    : aboutMe.defaultContactInfo.city;
+const country =
+  lang === "es"
+    ? (aboutMe.defaultContactInfo.countryEs ??
+      aboutMe.defaultContactInfo.country)
+    : aboutMe.defaultContactInfo.country;
 ---
 
 <section class="text-gray-900">
   <article>
-    <h1 class="text-3xl lg:text-5xl font-medium leading-tight">
+    <h1 class="text-3xl lg:text-5xl font-thin leading-tight">
       {aboutMe.firstName}
       <span class="font-thin">{aboutMe.surname}</span>
     </h1>
@@ -64,24 +74,11 @@ const jobTitle =
   <article
     class="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-sm lg:text-base text-gray-800"
   >
-    <span class="inline-flex items-center gap-1">
-      <Icon name="location" class="w-4 h-4" />
-      <span id="location-based-content"
-        >{aboutMe.defaultContactInfo.city}, {
-          aboutMe.defaultContactInfo.country
-        }</span
-      >
-    </span>
+    <span id="location-based-content">{city}, {country}</span>
     <span class="text-gray-300" aria-hidden="true">·</span>
-    <span class="inline-flex items-center gap-1">
-      <Icon name="phone" class="w-4 h-4" />
-      <span id="phone-based-content">{aboutMe.defaultContactInfo.phone}</span>
-    </span>
+    <span id="phone-based-content">{aboutMe.defaultContactInfo.phone}</span>
     <span class="text-gray-300" aria-hidden="true">·</span>
-    <span class="inline-flex items-center gap-1">
-      <Icon name="email" class="w-4 h-4" />
-      <a href={`mailto:${aboutMe.email}`}>{aboutMe.email}</a>
-    </span>
+    <a href={`mailto:${aboutMe.email}`}>{aboutMe.email}</a>
     {
       aboutMe.links?.map((items: { platformName: string; link: string }) => (
         <>
@@ -102,6 +99,7 @@ const jobTitle =
   define:vars={{
     dynamicContactInfo: aboutMe.dynamicContactInfo,
     defaultContactInfo: aboutMe.defaultContactInfo,
+    lang: lang,
   }}
 >
   import { checkContinentCodeHelper } from "./src/utils/helpers";
@@ -114,12 +112,14 @@ const jobTitle =
     const regionInfo = await checkContinentCodeHelper(dynamicContactInfo);
     if (!regionInfo) return;
 
-    const { city, country, phone } = regionInfo;
+    const { city, cityEs, country, countryEs, phone } = regionInfo;
     const locationContent = document.getElementById("location-based-content");
     const phoneContent = document.getElementById("phone-based-content");
 
     if (locationContent && phoneContent) {
-      locationContent.textContent = `${city}, ${country}`;
+      const localizedCity = lang === "es" ? (cityEs ?? city) : city;
+      const localizedCountry = lang === "es" ? (countryEs ?? country) : country;
+      locationContent.textContent = `${localizedCity}, ${localizedCountry}`;
       phoneContent.textContent = phone;
     }
   }

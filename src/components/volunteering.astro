@@ -2,13 +2,21 @@
 import { loadQuery } from "../sanity/lib/load-query";
 import PortableText from "../components/portable-text.astro";
 import { formatDateRangeHelper } from "../utils/helpers";
-import { t, type Lang } from "../i18n/ui";
+import type { Lang } from "../i18n/ui";
+
+interface UiStrings {
+  sectionTitles: {
+    volunteering: { en: string; es: string };
+  };
+  present: { en: string; es: string };
+}
 
 interface Props {
   lang?: Lang;
+  ui: UiStrings;
 }
 
-const { lang = "en" } = Astro.props as Props;
+const { lang = "en", ui } = Astro.props as Props;
 
 interface volunteering {
   title: string;
@@ -43,7 +51,7 @@ const { data } = await loadQuery<volunteering[]>({
   <!-- Volunteering -->
   <article>
     <p class="section-title text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
-      {t(lang, "volunteering")}
+      {ui.sectionTitles.volunteering[lang]}
     </p>
     {
       data
@@ -56,6 +64,7 @@ const { data } = await loadQuery<volunteering[]>({
               current: items.current,
             },
             lang,
+            ui.present[lang],
           );
 
           const role =
@@ -66,7 +75,7 @@ const { data } = await loadQuery<volunteering[]>({
               : items.description;
 
           return (
-            <article class="cv-entry my-4">
+            <article class="cv-entry mt-4">
               <p class="text-base lg:text-lg font-medium">{role}</p>
               <p class="text-base lg:text-lg italic">
                 {items.organization} | {formattedStart} - {formattedEnd}

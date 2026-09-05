@@ -52,7 +52,17 @@ export const aboutMe = defineType({
           type: "string",
         },
         {
+          name: "cityEs",
+          title: "City (ES)",
+          type: "string",
+        },
+        {
           name: "country",
+          type: "string",
+        },
+        {
+          name: "countryEs",
+          title: "Country (ES)",
           type: "string",
         },
       ],
@@ -90,7 +100,17 @@ export const aboutMe = defineType({
               type: "string",
             },
             {
+              name: "cityEs",
+              title: "City (ES)",
+              type: "string",
+            },
+            {
               name: "country",
+              type: "string",
+            },
+            {
+              name: "countryEs",
+              title: "Country (ES)",
               type: "string",
             },
           ],

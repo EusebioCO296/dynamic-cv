@@ -7,6 +7,7 @@ import Volunteering from "./volunteering.astro";
 import Education from "./education.astro";
 import { Icon } from "astro-icon/components";
 import { Layout } from "../layouts";
+import { loadQuery } from "../sanity/lib/load-query";
 import type { Lang } from "../i18n/ui";
 
 interface Props {
@@ -16,26 +17,46 @@ interface Props {
 const { lang = "en" } = Astro.props as Props;
 
 const title = lang === "es" ? "CV" : "Resume";
+
+interface UiStrings {
+  sectionTitles: {
+    professionalProfile: { en: string; es: string };
+    skills: { en: string; es: string };
+    workExperience: { en: string; es: string };
+    volunteering: { en: string; es: string };
+    education: { en: string; es: string };
+  };
+  present: { en: string; es: string };
+  modality: {
+    onSite: { en: string; es: string };
+    hybrid: { en: string; es: string };
+    remote: { en: string; es: string };
+  };
+}
+
+const { data: ui } = await loadQuery<UiStrings>({
+  query: `*[_type == "uiStrings"][0]`,
+});
 ---
 
 <Layout title={title} lang={lang}>
   <div class="main-container mx-4 lg:mx-0 py-10 lg:py-16">
     <main
       id="main-content"
-      class="max-w-3xl mx-auto pb-24 flex flex-col gap-8 lg:gap-10"
+      class="max-w-3xl mx-auto pb-24 flex flex-col gap-6 lg:gap-8"
     >
       <AboutMe lang={lang} />
-      <Bio lang={lang} />
-      <Skills lang={lang} />
-      <WorkExperience lang={lang} />
-      <Volunteering lang={lang} />
-      <Education lang={lang} />
+      <Bio lang={lang} ui={ui} />
+      <Skills lang={lang} ui={ui} />
+      <WorkExperience lang={lang} ui={ui} />
+      <Volunteering lang={lang} ui={ui} />
+      <Education lang={lang} ui={ui} />
     </main>
 
     <!-- Language toggle -->
     <div
       id="lang-toggle"
-      class="fixed top-5 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1"
+      class="fixed top-5 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1 bg-white px-2 py-1 rounded"
     >
       <a
         href="/resume/es"

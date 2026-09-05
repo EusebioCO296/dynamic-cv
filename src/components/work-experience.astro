@@ -2,13 +2,37 @@
 import { loadQuery } from "../sanity/lib/load-query";
 import PortableText from "../components/portable-text.astro";
 import { formatDateRangeHelper } from "../utils/helpers";
-import { t, getModality, type Lang } from "../i18n/ui";
+import type { Lang } from "../i18n/ui";
+
+interface UiStrings {
+  sectionTitles: {
+    workExperience: { en: string; es: string };
+  };
+  present: { en: string; es: string };
+  modality: {
+    onSite: { en: string; es: string };
+    hybrid: { en: string; es: string };
+    remote: { en: string; es: string };
+  };
+}
 
 interface Props {
   lang?: Lang;
+  ui: UiStrings;
 }
 
-const { lang = "en" } = Astro.props as Props;
+const { lang = "en", ui } = Astro.props as Props;
+
+const modalityKeyMap: Record<string, keyof UiStrings["modality"]> = {
+  "on-site": "onSite",
+  hybrid: "hybrid",
+  remote: "remote",
+};
+
+const getModality = (modality: string) => {
+  const key = modalityKeyMap[modality];
+  return key ? ui.modality[key][lang] : modality;
+};
 
 interface WorkExperience {
   title: string;
@@ -45,7 +69,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
 
 <section>
   <p class="section-title text-xl lg:text-2xl font-medium mb-2 lg:mb-4">
-    {t(lang, "workExperience")}
+    {ui.sectionTitles.workExperience[lang]}
   </p>
 
   {
@@ -59,6 +83,7 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
             current: experience.current,
           },
           lang,
+          ui.present[lang],
         );
 
         const jobTitle =
@@ -69,10 +94,10 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
           lang === "es"
             ? (experience.jobDescriptionEs ?? experience.jobDescription)
             : experience.jobDescription;
-        const modality = getModality(lang, experience.modality);
+        const modality = getModality(experience.modality);
 
         return (
-          <article class="cv-entry my-4 font-normal text-base">
+          <article class="cv-entry mt-4 font-normal text-base">
             <p class="text-base lg:text-lg font-semibold lg:font-medium">
               {jobTitle}
             </p>

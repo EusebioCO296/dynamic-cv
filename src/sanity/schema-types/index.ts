@@ -4,7 +4,16 @@ import { aboutMe } from "./about-me";
 import { workExperience } from "./work-experience";
 import { education } from "./education";
 import { volunteering } from "./volunteering";
+import { uiStrings, localizedString } from "./ui-strings";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [blockContentType, aboutMe, education, volunteering, workExperience],
+  types: [
+    blockContentType,
+    aboutMe,
+    education,
+    volunteering,
+    workExperience,
+    localizedString,
+    uiStrings,
+  ],
 };

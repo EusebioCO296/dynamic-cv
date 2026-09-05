@@ -1,4 +1,4 @@
-import { monthsMap, t, type Lang } from "../../i18n/ui";
+import { monthsMap, type Lang } from "../../i18n/ui";
 
 interface DateRange {
   startDate: string;
@@ -13,7 +13,11 @@ export const formatToMonthYearHelper = (date: Date, lang: Lang = "en") => {
   return `${month}-${year}`;
 };
 
-export const formatDateRangeHelper = (dates: DateRange, lang: Lang = "en") => {
+export const formatDateRangeHelper = (
+  dates: DateRange,
+  lang: Lang = "en",
+  presentLabel: string,
+) => {
   const start = new Date(dates.startDate);
   const end = dates.endDate ? new Date(dates.endDate) : null;
 
@@ -22,7 +26,7 @@ export const formatDateRangeHelper = (dates: DateRange, lang: Lang = "en") => {
     : formatToMonthYearHelper(start, lang);
 
   const formattedEnd = dates.current
-    ? t(lang, "present")
+    ? presentLabel
     : end && !isNaN(end.getTime())
       ? formatToMonthYearHelper(end, lang)
       : "Invalid Date";
