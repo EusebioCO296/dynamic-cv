@@ -48,6 +48,13 @@ const aboutMe = data[0];
 const jobTitle =
   lang === "es" ? (aboutMe.jobTitleEs ?? aboutMe.jobTitle) : aboutMe.jobTitle;
 
+// ponytail: el "|" del cargo separa profesión y especialidad; cada tramo va en
+// su propia línea. Sin "|" queda una sola, igual que antes.
+const jobTitleLines = jobTitle
+  .split("|")
+  .map((part) => part.trim())
+  .filter(Boolean);
+
 const city =
   lang === "es"
     ? (aboutMe.defaultContactInfo.cityEs ?? aboutMe.defaultContactInfo.city)
@@ -66,7 +73,14 @@ const country =
       <span class="font-thin">{aboutMe.surname}</span>
     </h1>
     <p class="font-normal text-lg lg:text-xl text-gray-700 mt-1">
-      {jobTitle}
+      {
+        jobTitleLines.map((line, i) => (
+          <>
+            {i > 0 && <br />}
+            {line}
+          </>
+        ))
+      }
     </p>
   </article>
 
