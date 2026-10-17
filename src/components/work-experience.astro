@@ -107,9 +107,11 @@ const { data: workExperiences } = await loadQuery<WorkExperience[]>({
             <p class="text-base lg:text-lg font-semibold lg:font-medium">
               {jobTitle}
             </p>
+            {/* ponytail: modality es opcional; sin valor se omite ", <modality>" */}
             <p class="text-base font-medium lg:font-normal lg:text-lg italic">
-              {companyName}, {modality} | {formattedStart}{" "}
-              - {formattedEnd}
+              {companyName}
+              {experience.modality && <>, {modality}</>} | {formattedStart} -{" "}
+              {formattedEnd}
             </p>
             {!experience.hideDescription && (
               <div
