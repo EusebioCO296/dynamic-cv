@@ -2,8 +2,8 @@
 /**
  * Seed del CV de Eusebio José Caballero Olivella en un dataset de Sanity vacío.
  *
- * Transcripción literal del PDF fuente (español en los campos base; los campos
- * *Es quedan ausentes a propósito: los componentes caen de ES a base).
+ * Contenido del PDF fuente, bilingüe: campos base en inglés (traducción) y
+ * campos *Es en español (transcripción literal), igual que el repo de Arturo.
  * `languages` (requerido por el schema) no existe en el PDF y se omite a
  * propósito: Studio mostrará un aviso de validación, esperado y aceptado.
  *
@@ -129,13 +129,17 @@ const docs = [
     firstName: "Eusebio José",
     surname: "Caballero Olivella",
     jobTitle:
+      "Electronic Engineer | Specialist in Metrological Assurance and Industrial Instrumentation",
+    jobTitleEs:
       "Ingeniero Electrónico | Especialista en Aseguramiento Metrológico e Instrumentación Industrial",
     email: "eusebiocaballero7@gmail.com",
     defaultContactInfo: {
       isActive: true,
       phone: "(+57) 3045563862",
       city: "Marinilla, Antioquia",
+      cityEs: "Marinilla, Antioquia",
       country: "Colombia",
+      countryEs: "Colombia",
     },
     dynamicContactInfo: [],
     links: [
@@ -145,8 +149,31 @@ const docs = [
         link: "https://www.linkedin.com/in/eusebio-caballero-olivella",
       },
     ],
-    bio: "Ingeniero Electrónico con más de 3.5 años de experiencia en metrología industrial, instrumentación y automatización de procesos en plantas de manufactura de alta exigencia (Sector Alimentos/Consumo Masivo). Especialista en la gestión, calibración y aseguramiento metrológico de variables críticas de proceso. Con sólidas competencias en la optimización de planes de calibración mediante SAP ERP, análisis de datos y control de sistemas automatizados para tareas rutinarias. Orientado al cumplimiento estricto de normativas de calidad, trazabilidad y mejora continua, y asegurar la conformidad de los equipos de medición bajo estándares regulatorios.",
+    bio: "Electronic Engineer with over 3.5 years of experience in industrial metrology, instrumentation and process automation in demanding manufacturing plants (Food/Consumer Goods sector). Specialist in the management, calibration and metrological assurance of critical process variables. Strong skills in optimizing calibration plans through SAP ERP, data analysis and control of automated systems for routine tasks. Committed to strict compliance with quality standards, traceability and continuous improvement, ensuring that measuring equipment conforms to regulatory standards.",
+    bioEs: "Ingeniero Electrónico con más de 3.5 años de experiencia en metrología industrial, instrumentación y automatización de procesos en plantas de manufactura de alta exigencia (Sector Alimentos/Consumo Masivo). Especialista en la gestión, calibración y aseguramiento metrológico de variables críticas de proceso. Con sólidas competencias en la optimización de planes de calibración mediante SAP ERP, análisis de datos y control de sistemas automatizados para tareas rutinarias. Orientado al cumplimiento estricto de normativas de calidad, trazabilidad y mejora continua, y asegurar la conformidad de los equipos de medición bajo estándares regulatorios.",
     skills: [
+      ...group("Metrology and Quality", [
+        "Metrological assurance",
+        "Calibration and instrumentation",
+        "Uncertainty estimation",
+        "ISO standards (9001 / 17025 / 14001 / 45001 / HACCP / FSSC 22000)",
+      ]),
+      ...group("Automation and Software", [
+        "SAP ERP",
+        "Python",
+        "Java",
+        "C language (programming language knowledge)",
+        "Industrial automation systems",
+        "Office suites and G Suite",
+      ]),
+      ...group("Management Skills", [
+        "Technical team leadership",
+        "Data-driven decision making",
+        "KPI management",
+        "Supplier management",
+      ]),
+    ],
+    skillsEs: [
       ...group("Metrología y Calidad", [
         "Aseguramiento metrológico",
         "Calibración e instrumentación",
@@ -174,24 +201,20 @@ const docs = [
     _type: "workExperience",
     title:
       "Técnico de Mantenimiento – Rol Metrología | Alimentos Cárnicos S.A.S",
-    jobTitle: "Técnico de Mantenimiento – Rol Metrología",
+    jobTitle: "Maintenance Technician – Metrology Role",
+    jobTitleEs: "Técnico de Mantenimiento – Rol Metrología",
     companyName: "Alimentos Cárnicos S.A.S",
     startDate: "2024-01-01",
     current: true,
-    hideDescription: false,
-    jobDescription: [
-      "Gestión, calibración y aseguramiento metrológico de variables críticas de proceso en planta de manufactura de alta exigencia (sector alimentos/consumo masivo).",
-      "Optimización de planes de calibración mediante SAP ERP.",
-      "Análisis de datos y control de sistemas automatizados para tareas rutinarias.",
-      "Cumplimiento de normativas de calidad, trazabilidad y mejora continua, asegurando la conformidad de los equipos de medición bajo estándares regulatorios.",
-    ].map((t) => block(t, { list: true })),
+    hideDescription: true,
     chronoIndex: 2,
   },
   {
     _id: "work-a-hora",
     _type: "workExperience",
     title: "Técnico de Mantenimiento – Rol Metrología | A-hora S.A.S",
-    jobTitle: "Técnico de Mantenimiento – Rol Metrología",
+    jobTitle: "Maintenance Technician – Metrology Role",
+    jobTitleEs: "Técnico de Mantenimiento – Rol Metrología",
     companyName: "A-hora S.A.S",
     startDate: "2023-01-01",
     endDate: "2023-12-31",
@@ -203,21 +226,24 @@ const docs = [
     _id: "edu-upc",
     _type: "education",
     title: "Ingeniero Electrónico",
-    degree: "Ingeniero Electrónico",
+    degree: "Electronic Engineer",
+    degreeEs: "Ingeniero Electrónico",
     institutionOrSchool: "Universidad Popular Del Cesar",
     chronoIndex: 3,
   },
   {
     _id: "edu-sena",
     _type: "education",
-    degree: "Técnico en mantenimiento de Automatismos Industriales",
+    degree: "Technician in Industrial Automation Maintenance",
+    degreeEs: "Técnico en mantenimiento de Automatismos Industriales",
     institutionOrSchool: "SENA",
     chronoIndex: 2,
   },
   {
     _id: "edu-cesde",
     _type: "education",
-    degree: "Técnico en análisis y desarrollo de software",
+    degree: "Technician in Software Analysis and Development",
+    degreeEs: "Técnico en análisis y desarrollo de software",
     institutionOrSchool: "CESDE",
     chronoIndex: 1,
   },
@@ -232,11 +258,6 @@ const docs = [
       education: loc("Education", "Educación"),
     },
     present: loc("Present", "Presente"),
-    modality: {
-      onSite: loc("On-site", "Presencial"),
-      hybrid: loc("Hybrid", "Híbrido"),
-      remote: loc("Remote", "Remoto"),
-    },
   },
 ];
 
