@@ -27,11 +27,6 @@ interface UiStrings {
     education: { en: string; es: string };
   };
   present: { en: string; es: string };
-  modality: {
-    onSite: { en: string; es: string };
-    hybrid: { en: string; es: string };
-    remote: { en: string; es: string };
-  };
 }
 
 const { data: ui } = await loadQuery<UiStrings>({

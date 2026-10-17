@@ -61,17 +61,14 @@ export const workExperience = defineType({
       type: "string",
     }),
     defineField({
-      name: "modality",
-      title: "Modality",
+      name: "location",
+      title: "Location",
       type: "string",
-      options: {
-        list: [
-          { title: "On-site", value: "on-site" },
-          { title: "Hybrid", value: "hybrid" },
-          { title: "Remote", value: "remote" },
-        ],
-      },
-      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "locationEs",
+      title: "Location (ES)",
+      type: "string",
     }),
     defineField({
       name: "jobDescription",
