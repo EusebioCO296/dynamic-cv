@@ -145,12 +145,13 @@ const docs = [
     links: [
       {
         _key: key(),
-        platformName: "LinkedIn",
+        platformName: "linkedin.com/in/eusebio-caballero-olivella",
         link: "https://www.linkedin.com/in/eusebio-caballero-olivella",
       },
     ],
     bio: "Electronic Engineer with over 3.5 years of experience in industrial metrology, instrumentation and process automation in demanding manufacturing plants (Food/Consumer Goods sector). Specialist in the management, calibration and metrological assurance of critical process variables. Strong skills in optimizing calibration plans through SAP ERP, data analysis and control of automated systems for routine tasks. Committed to strict compliance with quality standards, traceability and continuous improvement, ensuring that measuring equipment conforms to regulatory standards.",
-    bioEs: "Ingeniero Electrónico con más de 3.5 años de experiencia en metrología industrial, instrumentación y automatización de procesos en plantas de manufactura de alta exigencia (Sector Alimentos/Consumo Masivo). Especialista en la gestión, calibración y aseguramiento metrológico de variables críticas de proceso. Con sólidas competencias en la optimización de planes de calibración mediante SAP ERP, análisis de datos y control de sistemas automatizados para tareas rutinarias. Orientado al cumplimiento estricto de normativas de calidad, trazabilidad y mejora continua, y asegurar la conformidad de los equipos de medición bajo estándares regulatorios.",
+    bioEs:
+      "Ingeniero Electrónico con más de 3.5 años de experiencia en metrología industrial, instrumentación y automatización de procesos en plantas de manufactura de alta exigencia (Sector Alimentos/Consumo Masivo). Especialista en la gestión, calibración y aseguramiento metrológico de variables críticas de proceso. Con sólidas competencias en la optimización de planes de calibración mediante SAP ERP, análisis de datos y control de sistemas automatizados para tareas rutinarias. Orientado al cumplimiento estricto de normativas de calidad, trazabilidad y mejora continua, y asegurar la conformidad de los equipos de medición bajo estándares regulatorios.",
     skills: [
       ...group("Metrology and Quality", [
         "Metrological assurance",
