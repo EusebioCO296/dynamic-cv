@@ -53,11 +53,11 @@ const { data: ui } = await loadQuery<UiStrings>({
       <Education lang={lang} ui={ui} />
     </main>
 
-    <!-- Language toggle -->
+    <!-- Language + profile toggles: una sola grilla para que los "|" queden alineados -->
     <div
-      id="lang-toggle"
-      class="fixed top-5 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1 bg-white px-2 py-1 rounded"
+      class="fixed top-5 right-5 lg:right-10 text-sm font-medium z-10 grid grid-cols-[auto_auto_auto] items-center gap-x-1 gap-y-2 bg-white px-2 py-1 rounded"
     >
+    <div id="lang-toggle" class="contents">
       <a
         href={hrefFor("es", profile)}
         title={lang === "es" ? "Ya estás en Español" : "Cambiar a Español"}
@@ -77,11 +77,7 @@ const { data: ui } = await loadQuery<UiStrings>({
       </a>
     </div>
 
-    <!-- Profile toggle -->
-    <div
-      id="profile-toggle"
-      class="fixed top-14 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1 bg-white px-2 py-1 rounded"
-    >
+    <div id="profile-toggle" class="contents">
       <a
         href={hrefFor(lang, "ds")}
         title={
@@ -115,6 +111,7 @@ const { data: ui } = await loadQuery<UiStrings>({
       >
         IE
       </a>
+    </div>
     </div>
 
     <button
