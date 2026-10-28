@@ -12,25 +12,33 @@ interface UiStrings {
 interface Props {
   lang?: Lang;
   ui: UiStrings;
+  profile?: "ie" | "ds";
 }
 
-const { lang = "en", ui } = Astro.props as Props;
+const { lang = "en", ui, profile = "ie" } = Astro.props as Props;
 
 interface Skills {
   skills: any[];
   skillsEs?: any[];
+  skillsDs?: any[];
+  skillsDsEs?: any[];
 }
 
 const { data } = await loadQuery<Skills[]>({
   query: `*[_type == "aboutMe"] {
     skills,
-    skillsEs
+    skillsEs,
+    skillsDs,
+    skillsDsEs
   }`,
 });
 
 const aboutMe = data[0];
-const skills =
+const ieSkills =
   lang === "es" ? (aboutMe.skillsEs ?? aboutMe.skills) : aboutMe.skills;
+const dsSkills =
+  lang === "es" ? (aboutMe.skillsDsEs ?? aboutMe.skillsDs) : aboutMe.skillsDs;
+const skills = (profile === "ds" && dsSkills?.length && dsSkills) || ieSkills;
 ---
 
 <section class="text-gray-900">

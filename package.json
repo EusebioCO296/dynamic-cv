@@ -10,6 +10,7 @@
     "format": "prettier --write .",
     "migrate:es": "node scripts/migrate-es.mjs",
     "content:v2": "node scripts/update-content-v2.mjs",
+    "content:ds": "node scripts/seed-ds.mjs",
     "seed:eu": "node scripts/seed-eu.mjs"
   },
   "dependencies": {

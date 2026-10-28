@@ -11,24 +11,31 @@ interface UiStrings {
 interface Props {
   lang?: Lang;
   ui: UiStrings;
+  profile?: "ie" | "ds";
 }
 
-const { lang = "en", ui } = Astro.props as Props;
+const { lang = "en", ui, profile = "ie" } = Astro.props as Props;
 
 interface bio {
   bio: any;
   bioEs?: any;
+  bioDs?: any;
+  bioDsEs?: any;
 }
 
 const { data } = await loadQuery<bio[]>({
   query: `*[_type == "aboutMe"] {
     bio,
-    bioEs
+    bioEs,
+    bioDs,
+    bioDsEs
   }`,
 });
 
 const aboutMe = data[0];
-const bio = lang === "es" ? (aboutMe.bioEs ?? aboutMe.bio) : aboutMe.bio;
+const ieBio = lang === "es" ? (aboutMe.bioEs ?? aboutMe.bio) : aboutMe.bio;
+const dsBio = lang === "es" ? (aboutMe.bioDsEs ?? aboutMe.bioDs) : aboutMe.bioDs;
+const bio = (profile === "ds" && dsBio) || ieBio;
 const bioParagraphs = (bio ?? "").split("\n\n").filter(Boolean);
 ---
 

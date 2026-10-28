@@ -12,9 +12,14 @@ import type { Lang } from "../i18n/ui";
 
 interface Props {
   lang?: Lang;
+  profile?: "ie" | "ds";
 }
 
-const { lang = "en" } = Astro.props as Props;
+const { lang = "en", profile = "ie" } = Astro.props as Props;
+
+// IE conserva las URLs originales (/resume/es); DS añade el sufijo /ds.
+const hrefFor = (l: Lang, prof: "ie" | "ds") =>
+  `/resume/${l}${prof === "ds" ? "/ds" : ""}`;
 
 const title = lang === "es" ? "CV" : "Resume";
 
@@ -40,9 +45,9 @@ const { data: ui } = await loadQuery<UiStrings>({
       id="main-content"
       class="max-w-3xl mx-auto pb-24 flex flex-col gap-6 lg:gap-8"
     >
-      <AboutMe lang={lang} />
-      <Bio lang={lang} ui={ui} />
-      <Skills lang={lang} ui={ui} />
+      <AboutMe lang={lang} profile={profile} />
+      <Bio lang={lang} ui={ui} profile={profile} />
+      <Skills lang={lang} ui={ui} profile={profile} />
       <WorkExperience lang={lang} ui={ui} />
       <Volunteering lang={lang} ui={ui} />
       <Education lang={lang} ui={ui} />
@@ -54,7 +59,7 @@ const { data: ui } = await loadQuery<UiStrings>({
       class="fixed top-5 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1 bg-white px-2 py-1 rounded"
     >
       <a
-        href="/resume/es"
+        href={hrefFor("es", profile)}
         title={lang === "es" ? "Ya estás en Español" : "Cambiar a Español"}
         aria-current={lang === "es" ? "page" : undefined}
         class={`transition ease-in-out duration-200 hover:text-gray-500 ${lang === "es" ? "text-gray-900" : "text-gray-400"}`}
@@ -63,12 +68,52 @@ const { data: ui } = await loadQuery<UiStrings>({
       </a>
       <span class="text-gray-300">|</span>
       <a
-        href="/resume/en"
+        href={hrefFor("en", profile)}
         title={lang === "en" ? "You are already in English" : "Switch to English"}
         aria-current={lang === "en" ? "page" : undefined}
         class={`transition ease-in-out duration-200 hover:text-gray-500 ${lang === "en" ? "text-gray-900" : "text-gray-400"}`}
       >
         EN
+      </a>
+    </div>
+
+    <!-- Profile toggle -->
+    <div
+      id="profile-toggle"
+      class="fixed top-14 right-5 lg:right-10 text-sm font-medium z-10 flex items-center gap-1 bg-white px-2 py-1 rounded"
+    >
+      <a
+        href={hrefFor(lang, "ds")}
+        title={
+          profile === "ds"
+            ? lang === "es"
+              ? "Ya estás en el perfil de Desarrollador de Software"
+              : "You are already on the Software Developer profile"
+            : lang === "es"
+              ? "Cambiar al perfil de Desarrollador de Software"
+              : "Switch to the Software Developer profile"
+        }
+        aria-current={profile === "ds" ? "page" : undefined}
+        class={`transition ease-in-out duration-200 hover:text-gray-500 ${profile === "ds" ? "text-gray-900" : "text-gray-400"}`}
+      >
+        DS
+      </a>
+      <span class="text-gray-300">|</span>
+      <a
+        href={hrefFor(lang, "ie")}
+        title={
+          profile === "ie"
+            ? lang === "es"
+              ? "Ya estás en el perfil de Ingeniero Electrónico"
+              : "You are already on the Electronic Engineer profile"
+            : lang === "es"
+              ? "Cambiar al perfil de Ingeniero Electrónico"
+              : "Switch to the Electronic Engineer profile"
+        }
+        aria-current={profile === "ie" ? "page" : undefined}
+        class={`transition ease-in-out duration-200 hover:text-gray-500 ${profile === "ie" ? "text-gray-900" : "text-gray-400"}`}
+      >
+        IE
       </a>
     </div>
 
@@ -140,7 +185,8 @@ const { data: ui } = await loadQuery<UiStrings>({
       display: none !important;
     }
 
-    #lang-toggle {
+    #lang-toggle,
+    #profile-toggle {
       display: none !important;
     }
   }
